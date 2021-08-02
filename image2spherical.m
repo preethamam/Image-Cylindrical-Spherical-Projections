@@ -11,7 +11,7 @@ function imageSpherical = image2spherical(image, f, k1, k2, k3)
 %
 %************************************************************************%
 %
-% Usage: imageCylindrical = image2cylindrical(image, f, k1, k2, k3)
+% Usage: imageSpherical = image2spherical(image, f, k1, k2, k3)
 % Inputs: image - input image
 %         f  - focal length in pixels (typically varies from 200 t0 800)
 %              highly depends on the camera.
@@ -19,7 +19,7 @@ function imageSpherical = image2spherical(image, f, k1, k2, k3)
 %         k2 - Radial distortion coefficient.
 %         k3 - Radial distortion coefficient.
 %
-% Outputs: imageCylindrical - Warpped image to cylindrical coordinates
+% Outputs: imageSpherical - Warpped image to spherical coordinates
 
 % Get image size
 [ydim, xdim, bypixs] = size(image);
