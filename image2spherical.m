@@ -56,13 +56,17 @@ ximg = floor(f * xd + xc);
 yimg = floor(f * yd + yc);
 
 % Find boundary of the cylindrical projection
-[row,col] = find(ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim);
+region = (ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim);
 
-% Spherical warped image
-% imageSpherical(row,col,:) = image(row,col,:);
-for i=1:length(row)    
-   imageSpherical(row(i),col(i),:) = image(row(i),col(i),:);
-end
+% Temporary variables
+imtmp  = reshape(image,[], size(image,3));
+outtmp = reshape(imageSpherical, [], size(imageSpherical,3));
+outtmp(region,:) = imtmp(region,:);
+
+% Get projections
+imageSpherical(:) = outtmp(:); 
+
+clear outtmp imtmp
 
 end
 
