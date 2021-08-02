@@ -11,4 +11,5 @@ Transforms the color or grayscale 2D image to the cylindrical and spherical coor
 MATLAB
 
 # MATLAB Central
+[![View Image to cylindrical and spherical projection/warping on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/96962-image-to-cylindrical-and-spherical-projection-warping)
 
