@@ -65,5 +65,7 @@ outtmp(region,:) = imtmp(region,:);
 % Get projections
 imageCylindrical(:) = outtmp(:);
 
+clear outtmp imtmp
+
 end
 
