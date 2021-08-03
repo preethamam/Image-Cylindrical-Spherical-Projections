@@ -55,17 +55,13 @@ ximg = floor(f * xd + xc);
 yimg = floor(f * yd + yc);
 
 % Find boundary of the cylindrical projection
-region = (ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim);
+mask = ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim;
 
-% Temporary variables
-imtmp  = reshape(image,[], size(image,3));
-outtmp = reshape(imageCylindrical, [], size(imageCylindrical,3));
-outtmp(region,:) = imtmp(region,:);
+% Reshape the mask
+mask = repmat(mask,1,1,3);
 
 % Get projections
-imageCylindrical(:) = outtmp(:);
-
-clear outtmp imtmp
+imageCylindrical(mask) = image(mask);
 
 end
 

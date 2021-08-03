@@ -1,7 +1,7 @@
 function imageSpherical = image2spherical(image, f, k1, k2, k3)
 
 %%***********************************************************************%
-%*                   Image to cylindrical projection                    *%
+%*                   Image to spherical projection                      *%
 %*              Projects normal image to a spherical warp               *%
 %*                                                                      *%
 %* Code author: Preetham Manjunatha                                     *%
@@ -56,17 +56,13 @@ ximg = floor(f * xd + xc);
 yimg = floor(f * yd + yc);
 
 % Find boundary of the cylindrical projection
-region = (ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim);
+mask = ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim;
 
-% Temporary variables
-imtmp  = reshape(image,[], size(image,3));
-outtmp = reshape(imageSpherical, [], size(imageSpherical,3));
-outtmp(region,:) = imtmp(region,:);
+% Reshape the mask
+mask = repmat(mask,1,1,3);
 
 % Get projections
-imageSpherical(:) = outtmp(:); 
-
-clear outtmp imtmp
+imageSpherical(mask) = image(mask);
 
 end
 
