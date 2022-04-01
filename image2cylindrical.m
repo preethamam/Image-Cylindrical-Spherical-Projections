@@ -25,7 +25,7 @@ function imageCylindrical = image2cylindrical(image, f, k1, k2, k3)
 [ydim, xdim, bypixs] = size(image);
 
 % Initialize an array
-imageCylindrical = uint8(zeros(ydim, xdim, 3));
+imageCylindrical = uint8(zeros(ydim, xdim, bypixs));
 
 % Get the center of image
 xc = round(xdim/2);
@@ -58,7 +58,9 @@ yimg = floor(f * yd + yc);
 mask = ximg > 0 & ximg <= xdim & yimg > 0 & yimg <= ydim;
 
 % Reshape the mask
-mask = repmat(mask,1,1,3);
+if bypixs == 3
+    mask = repmat(mask,1,1,3);
+end
 
 % Get projections
 imageCylindrical(mask) = image(mask);
