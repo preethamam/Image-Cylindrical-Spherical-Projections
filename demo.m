@@ -1,9 +1,9 @@
 clc; close all; clear;
 
 % Inputs
-fileName = 'peppers.png';
+fileName = 'checker.jpg';
 image = (imread(fileName));
-f = 200;
+f = 50;
 k1 = 0.0;
 k2 = 0.0;
 k3 = 0.0;
