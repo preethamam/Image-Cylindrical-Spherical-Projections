@@ -60,8 +60,14 @@ yn = xyz_cap_norm(:,2) ./ xyz_cap_norm(:,3);
 
 % Radial and tangential distortion
 r = xn.^2 + yn.^2;
-xd = xn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
-yd = yn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
+xd_r = xn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
+yd_r = yn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
+
+xd_t = 2 * p1 * xn .* yn + p2 * (r.^2 + 2 * xn.^2);
+yd_t = p1 * (r.^2 + 2 * yn.^2) + 2 * p2 * xn .* yn;
+
+xd = xd_r + xd_t;
+yd = yd_r + yd_t;
 
 % Get the clipped mask
 xd = reshape(xd,[ydim, xdim]);
