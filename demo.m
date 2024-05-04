@@ -1,16 +1,48 @@
 clc; close all; clear;
 
+
+A=rand(160,160,3);
+AA=rand(160,160);
+row_index=[1, 2, 4, 5, 6, 12, 67];
+col_index=[1, 2, 3, 7, 8, 45, 55];
+ind = sub2ind(size(AA),row_index,col_index);
+% BB = A(ind,ind,:);
+
+[m,n,p]=size(A);
+[I,J]=ndgrid(1:m,1:n);
+ouput = A(  sub2ind([m,n,p], I,J,ind)   );
+
 % Inputs
 fileName = 'checker.jpg';
+
+% Add grid line
+add_grid = 0;
+
+% Focal lengths
+fx = 50;
+fy = 50;
+
+% Read image
 image = (imread(fileName));
-f = 50;
-k1 = 0.0;
-k2 = 0.0;
-k3 = 0.0;
+
+% Get image size
+[ydim, xdim, bypixs] = size(image);
+
+% Camera intrinsics
+K = [fx, 0, xdim/2; 0, fy, ydim/2; 0, 0, 1];
+
+% Distortion coefficients [k1, k2, k3, p1, p2]
+distortions = [0, 0, 0, 0, 0];
+
+% Add grid line 
+if add_grid
+    image(1:25:ydim,:,:) = 255;       %# Change every tenth row to white
+    image(:,1:25:xdim,:) = 255;       %# Change every tenth column to white
+end
 
 % Warpping
-imageCylindrical = image2cylindrical(image, f, k1, k2, k3);
-imageSpherical = image2spherical(image, f, k1, k2, k3);
+imageCylindrical    = cylindrical_projection(image, K, distortions) ;
+imageSpherical      = spherical_projection(image, K, distortions);
 
 % Show plots
 figure;
