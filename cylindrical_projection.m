@@ -69,10 +69,16 @@ yd = reshape(ceil(yd),[ydim, xdim]);
 mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
 
 % Get masked coordinates
-[row,col] = find(mask);
-ind = sub2ind(size(mask), row, col);
+xd = ceil(xd .* mask);
+yd = ceil(yd .* mask);
 
 % Get projections
-imageCylindrical =image(row, col,:);
+for i = 1:ydim
+    for j = 1:xdim
+        if yd(i,j) ~= 0 || xd(i,j)~=0
+            imageCylindrical(i,j,:) = image(yd(i,j), xd(i,j),:);
+        end
+    end
+end
 
 end

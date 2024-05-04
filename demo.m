@@ -1,17 +1,5 @@
 clc; close all; clear;
 
-
-A=rand(160,160,3);
-AA=rand(160,160);
-row_index=[1, 2, 4, 5, 6, 12, 67];
-col_index=[1, 2, 3, 7, 8, 45, 55];
-ind = sub2ind(size(AA),row_index,col_index);
-% BB = A(ind,ind,:);
-
-[m,n,p]=size(A);
-[I,J]=ndgrid(1:m,1:n);
-ouput = A(  sub2ind([m,n,p], I,J,ind)   );
-
 % Inputs
 fileName = 'checker.jpg';
 
