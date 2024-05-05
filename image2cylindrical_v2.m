@@ -76,7 +76,7 @@ xd = xd .* mask;
 yd = yd .* mask;
 
 % Get projections
-ind = sub2ind(size(image), yd(mask), xd(mask), ones(1,length(xd(mask)))');
+ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));
 IC1 = zeros(ydim, xdim, 'uint8');
 IC1(mask) = image(ind + 0 * ydim * xdim);
 
