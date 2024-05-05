@@ -15,9 +15,9 @@ node_modules
 projections.png
 img1.png
 img2.png
-inverse_cylindrical.m
-inverse_spherical.m
-image2cylindrical_ver0.m
+imwrap_issue.m
+imwarp_1.png
+imwarp_2.png
 
 # Ignore files related to API keys
 .env
