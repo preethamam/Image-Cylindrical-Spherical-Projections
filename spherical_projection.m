@@ -6,12 +6,12 @@ function imageSpherical = spherical_projection(image, K, DC)
 %*                                                                      *%
 %* Code author: Preetham Manjunatha                                     *%
 %* Github link: https://github.com/preethamam
-%* Date: 08/02/2021                                                     *%
+%* Date: 05/04/2024                                                     *%
 %************************************************************************%
 %
 %************************************************************************%
 %
-% Usage: imageSpherical = image2spherical(image, K, DC)
+% Usage: imageSpherical = spherical_projection(image, K, DC)
 % Inputs: image - input image
 %         K  - Camera intrinsic matrix (depends on the camera).
 %         DC - Radial and tangential distortion coefficient.
@@ -30,9 +30,6 @@ p2 = DC(5);
 
 % Get image size
 [ydim, xdim, bypixs] = size(image);
-
-% Initialize an array
-imageSpherical = uint8(zeros(ydim, xdim, bypixs));
 
 % Get the center of image
 xc = round(xdim/2);
@@ -69,22 +66,28 @@ yd_t = p1 * (r.^2 + 2 * yn.^2) + 2 * p2 * xn .* yn;
 xd = xd_r + xd_t;
 yd = yd_r + yd_t;
 
-% Get the clipped mask
-xd = reshape(xd,[ydim, xdim]);
-yd = reshape(yd,[ydim, xdim]);
+% Reshape and clip coordinates
+xd = reshape(ceil(xd),[ydim, xdim]);
+yd = reshape(ceil(yd),[ydim, xdim]);
 mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
 
 % Get masked coordinates
-xd = ceil(xd .* mask);
-yd = ceil(yd .* mask);
+xd = xd .* mask;
+yd = yd .* mask;
 
 % Get projections
-for i = 1:ydim
-    for j = 1:xdim
-        if yd(i,j) ~= 0 || xd(i,j)~=0
-            imageSpherical(i,j,:) = image(yd(i,j), xd(i,j),:);
-        end
-    end
+ind = sub2ind(size(image), yd(mask), xd(mask), ones(1,length(xd(mask)))');
+IC1 = zeros(ydim, xdim, 'uint8');
+IC1(mask) = image(ind + 0 * ydim * xdim);
+
+if bypixs == 1
+    imageSpherical  = IC1;
+else
+    IC2 = zeros(ydim, xdim, 'uint8');
+    IC3 = zeros(ydim, xdim, 'uint8');
+    IC2(mask) = image(ind + 1 * ydim * xdim);
+    IC3(mask) = image(ind + 2 * ydim * xdim);
+    imageSpherical = cat(3, IC1, IC2, IC3);
 end
 
 end
