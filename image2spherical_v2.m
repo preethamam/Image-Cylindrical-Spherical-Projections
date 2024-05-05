@@ -1,8 +1,8 @@
-function imageCylindrical = cylindrical_projection(image, K, DC)
+function imageSpherical = image2spherical_v2(image, K, DC)
 
 %%***********************************************************************%
-%*                   Image to cylindrical projection                    *%
-%*           Projects normal image to a cylindrical warp                *%
+%*                   Image to spherical projection                      *%
+%*              Projects normal image to a spherical warp               *%
 %*                                                                      *%
 %* Code author: Preetham Manjunatha                                     *%
 %* Github link: https://github.com/preethamam
@@ -11,13 +11,13 @@ function imageCylindrical = cylindrical_projection(image, K, DC)
 %
 %************************************************************************%
 %
-% Usage: imageCylindrical = cylindrical_projection(image, K, DC)
+% Usage: imageSpherical = image2spherical_v2(image, K, DC)
 % Inputs: image - input image
 %         K  - Camera intrinsic matrix (depends on the camera).
 %         DC - Radial and tangential distortion coefficient.
 %              [k1, k2, k3, p1, p2]
 %
-% Outputs: imageCylindrical - Warpped image to cylindrical coordinates
+% Outputs: imageSpherical - Warpped image to spherical coordinates
 
 % Get distrotion coefficients
 fx = K(1,1);
@@ -32,20 +32,20 @@ p2 = DC(5);
 [ydim, xdim, bypixs] = size(image);
 
 % Get the center of image
-xc = xdim/2;
-yc = ydim/2;
+xc = round(xdim/2);
+yc = round(ydim/2);
 
 % Create X and Y coordinates grid
 [X,Y] = meshgrid(1:xdim, 1:ydim);
 
 % Perform the cylindrical projection
-theta = (X - xc) / fx;
-h = (Y - yc) / fy;
+theta = (X - xc)/fx;
+phi   = (Y - yc)/fy;
 
-% Cylindrical coordinates to Cartesian
-xcap = sin(theta);
-ycap = h;
-zcap = cos(theta);
+% Spherical coordinates to Cartesian
+xcap = sin(theta) .* cos(phi);
+ycap = sin(phi);
+zcap = cos(theta) .* cos(phi);
 
 xyz_cap = cat(3, xcap, ycap, zcap);
 xyz_cap = reshape(xyz_cap,[],3);
@@ -55,7 +55,7 @@ xyz_cap_norm = (K * xyz_cap')';
 xn = xyz_cap_norm(:,1) ./ xyz_cap_norm(:,3);
 yn = xyz_cap_norm(:,2) ./ xyz_cap_norm(:,3);
 
-% Radial and tangential distortion 
+% Radial and tangential distortion
 r = xn.^2 + yn.^2;
 xd_r = xn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
 yd_r = yn .* (1 + k1 * r.^2 + k2 * r.^4 + k3 * r.^6);
@@ -81,13 +81,14 @@ IC1 = zeros(ydim, xdim, 'uint8');
 IC1(mask) = image(ind + 0 * ydim * xdim);
 
 if bypixs == 1
-    imageCylindrical  = IC1;
+    imageSpherical  = IC1;
 else
     IC2 = zeros(ydim, xdim, 'uint8');
     IC3 = zeros(ydim, xdim, 'uint8');
     IC2(mask) = image(ind + 1 * ydim * xdim);
     IC3(mask) = image(ind + 2 * ydim * xdim);
-    imageCylindrical = cat(3, IC1, IC2, IC3);
+    imageSpherical = cat(3, IC1, IC2, IC3);
 end
 
 end
+

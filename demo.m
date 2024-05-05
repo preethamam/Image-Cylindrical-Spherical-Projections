@@ -29,11 +29,18 @@ if add_grid
 end
 
 % Warpping
-imageCylindrical    = cylindrical_projection(image, K, distortions) ;
-imageSpherical      = spherical_projection(image, K, distortions);
+imageCylindrical_v1 = image2cylindrical_v1(image, K, distortions);
+imageCylindrical_v2 = image2cylindrical_v2(image,  K, distortions);
+imageSpherical_v1   = image2spherical_v1(image, K, distortions);
+imageSpherical_v2   = image2spherical_v2(image, K, distortions);
+
 
 % Show plots
 figure;
-subplot(1,3,1); imshow(image); title('Input image')
-subplot(1,3,2); imshow(imageCylindrical); title('Cylindrical projection')
-subplot(1,3,3); imshow(imageSpherical); title('Spherical projection')
+subplot(2,3,1); imshow(image); title('Input image')
+subplot(2,3,2); imshow(imageCylindrical_v1); title('Cylindrical projection version 1')
+subplot(2,3,3); imshow(imageSpherical_v1); title('Spherical projection version 1')
+
+subplot(2,3,4); imshow(image); title('Input image')
+subplot(2,3,5); imshow(imageCylindrical_v2); title('Cylindrical projection version 2')
+subplot(2,3,6); imshow(imageSpherical_v2); title('Spherical projection version 2')
