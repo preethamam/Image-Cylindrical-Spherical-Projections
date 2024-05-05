@@ -66,14 +66,10 @@ yd_t = p1 * (r.^2 + 2 * yn.^2) + 2 * p2 * xn .* yn;
 xd = xd_r + xd_t;
 yd = yd_r + yd_t;
 
-% Reshape and clip coordinates
+% Clip coordinates
 xd = reshape(ceil(xd),[ydim, xdim]);
 yd = reshape(ceil(yd),[ydim, xdim]);
 mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
-
-% Get masked coordinates
-xd = xd .* mask;
-yd = yd .* mask;
 
 % Get projections
 ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));

@@ -61,17 +61,11 @@ xd = xd_r + xd_t;
 yd = yd_r + yd_t;
 
 % Convert to floor
-xd = floor(fx * xd + xc);
-yd = floor(fy * yd + yc);
+xd = ceil(fx * xd + xc);
+yd = ceil(fy * yd + yc);
 
-% Reshape and clip coordinates
-xd = reshape(ceil(xd),[ydim, xdim]);
-yd = reshape(ceil(yd),[ydim, xdim]);
+% Clip coordinates
 mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
-
-% Get masked coordinates
-xd = xd .* mask;
-yd = yd .* mask;
 
 % Get projections
 ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));
