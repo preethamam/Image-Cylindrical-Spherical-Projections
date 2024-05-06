@@ -1,4 +1,4 @@
-function imageSpherical = image2spherical_v2(image, K, DC)
+function imageSpherical = image2spherical_v2(image, K, DC, interpolate)
 
 %%***********************************************************************%
 %*                   Image to spherical projection                      *%
@@ -16,8 +16,23 @@ function imageSpherical = image2spherical_v2(image, K, DC)
 %         K  - Camera intrinsic matrix (depends on the camera).
 %         DC - Radial and tangential distortion coefficient.
 %              [k1, k2, k3, p1, p2]
+%         interpolate - 0 (no) or 1 (yes)
 %
 % Outputs: imageSpherical - Warpped image to spherical coordinates
+
+% Input arguments check
+if (nargin < 3)
+    error('Require camera intrinsic matrix (K).')
+end
+
+if(nargin < 3)
+    DC = [0, 0, 0, 0, 0];
+    interpolate = 1;
+end
+
+if (nargin < 4)
+    interpolate = 1;
+end
 
 % Get distrotion coefficients
 fx = K(1,1);
@@ -69,21 +84,38 @@ yd = yd_r + yd_t;
 % Clip coordinates
 xd = reshape(ceil(xd),[ydim, xdim]);
 yd = reshape(ceil(yd),[ydim, xdim]);
-mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
 
 % Get projections
-ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));
-IC1 = zeros(ydim, xdim, 'uint8');
-IC1(mask) = image(ind + 0 * ydim * xdim);
+switch interpolate
+    case 0
+        % Clip coordinates
+        mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
+                
+        ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));
+        IC1 = zeros(ydim, xdim, 'uint8');
+        IC1(mask) = image(ind + 0 * ydim * xdim);
+        
+        if bypixs == 1
+            imageSpherical  = IC1;
+        else
+            IC2 = zeros(ydim, xdim, 'uint8');
+            IC3 = zeros(ydim, xdim, 'uint8');
+            IC2(mask) = image(ind + 1 * ydim * xdim);
+            IC3(mask) = image(ind + 2 * ydim * xdim);
+            imageSpherical = cat(3, IC1, IC2, IC3);
+        end
+    case 1
 
-if bypixs == 1
-    imageSpherical  = IC1;
-else
-    IC2 = zeros(ydim, xdim, 'uint8');
-    IC3 = zeros(ydim, xdim, 'uint8');
-    IC2(mask) = image(ind + 1 * ydim * xdim);
-    IC3(mask) = image(ind + 2 * ydim * xdim);
-    imageSpherical = cat(3, IC1, IC2, IC3);
+        % Initialze array
+        imageSpherical = zeros(size(image));
+
+        % Interpolate for each color channel
+        for k = 1:size(image, 3)
+            imageSpherical(:,:,k) = interp2(X, Y, double(image(:,:,k)), xd, yd, 'cubic', 0);
+        end
+        
+        % Display the result
+        imageSpherical = uint8(imageSpherical);
 end
 
 end
