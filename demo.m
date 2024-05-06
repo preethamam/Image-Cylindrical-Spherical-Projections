@@ -23,7 +23,7 @@ K = [fx, 0, xdim/2; 0, fy, ydim/2; 0, 0, 1];
 distortions = [0, 0, 0, 0, 0];
 
 % Add grid line 
-if add_grid
+if add_grid == 1
     image(1:25:ydim,:,:) = 255;       %# Change every tenth row to white
     image(:,1:25:xdim,:) = 255;       %# Change every tenth column to white
 end
