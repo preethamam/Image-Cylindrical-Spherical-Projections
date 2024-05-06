@@ -100,7 +100,6 @@ switch interpolate
             imageSpherical = cat(3, IC1, IC2, IC3);
         end
     case 1
-
         % Initialze array
         imageSpherical = zeros(size(image));
 
