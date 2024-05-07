@@ -21,7 +21,7 @@ function imageSpherical = image2spherical_v1(image, K, DC, interpolate)
 % Outputs: imageSpherical - Warpped image to spherical coordinates
 
 % Input arguments check
-if (nargin < 3)
+if (nargin < 2)
     error('Require camera intrinsic matrix (K).')
 end
 
