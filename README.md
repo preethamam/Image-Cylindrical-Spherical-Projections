@@ -7,10 +7,10 @@ Transforms the color or grayscale 2D image to the cylindrical and spherical coor
 ## Example: Cylindrical and spherical projections
 | Images after the warping |
 | ------------- |
-| <img width="1275" alt="projections" src="https://github.com/preethamam/Image2CylindricalSpherical/assets/28588878/4809ea79-14b7-475c-ba8c-8a9ee6111fbb"> |
+| <img width="1275" alt="projections" src="https://github.com/preethamam/Image-Cylindrical-Spherical-Projections/assets/projections.png"> |
 
 # Requirements
-MATLAB
+MATLAB https://github.com/preethamam//blob/main/assets/projections.png
 
 # Feedback
 Please rate and provide feedback for the further improvements.
