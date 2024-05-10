@@ -12,12 +12,9 @@ node_modules
 *.PDF
 *.pcd
 
-projections.png
 img1.png
 img2.png
 imwrap_issue.m
-imwarp_1.png
-imwarp_2.png
 
 # Ignore files related to API keys
 .env
