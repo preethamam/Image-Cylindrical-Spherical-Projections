@@ -81,7 +81,7 @@ yd_t = p1 * (r.^2 + 2 * yn.^2) + 2 * p2 * xn .* yn;
 xd = xd_r + xd_t;
 yd = yd_r + yd_t;
 
-% Clip coordinates
+% Reshape to image dimension 2D
 xd = reshape(ceil(xd),[ydim, xdim]);
 yd = reshape(ceil(yd),[ydim, xdim]);
 

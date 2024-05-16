@@ -75,7 +75,7 @@ yd_t = p1 * (r.^2 + 2 * yn.^2) + 2 * p2 * xn .* yn;
 xd = xd_r + xd_t;
 yd = yd_r + yd_t;
 
-% Convert to floor
+% Convert to ceil
 xd = ceil(fx * xd + xc);
 yd = ceil(fy * yd + yc);
 

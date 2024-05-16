@@ -31,16 +31,19 @@ end
 % Warpping
 imageCylindrical_v1 = image2cylindrical_v1(image, K, distortions);
 imageCylindrical_v2 = image2cylindrical_v2(image, K, distortions);
+imageCylindrical_ccv = image2cylindricalConcave(image, K, distortions, 1);
 imageSpherical_v1   = image2spherical_v1(image, K, distortions);
 imageSpherical_v2   = image2spherical_v2(image, K, distortions);
 
 
 % Show plots
 figure;
-subplot(2,3,1); imshow(image); title('Input image')
-subplot(2,3,2); imshow(imageCylindrical_v1); title('Cylindrical projection version 1')
-subplot(2,3,3); imshow(imageSpherical_v1); title('Spherical projection version 1')
+subplot(2,4,1); imshow(image); title('Input image')
+subplot(2,4,2); imshow(imageCylindrical_v1); title('Cylindrical projection version 1')
+subplot(2,4,3); imshow(imageCylindrical_ccv); title('Cylindrical projection (concave)')
+subplot(2,4,4); imshow(imageSpherical_v1); title('Spherical projection version 1')
 
-subplot(2,3,4); imshow(image); title('Input image')
-subplot(2,3,5); imshow(imageCylindrical_v2); title('Cylindrical projection version 2')
-subplot(2,3,6); imshow(imageSpherical_v2); title('Spherical projection version 2')
+subplot(2,4,5); imshow(image); title('Input image')
+subplot(2,4,6); imshow(imageCylindrical_v2); title('Cylindrical projection version 2')
+subplot(2,4,7); imshow(imageCylindrical_ccv); title('Cylindrical projection (concave)')
+subplot(2,4,8); imshow(imageSpherical_v2); title('Spherical projection version 2')
