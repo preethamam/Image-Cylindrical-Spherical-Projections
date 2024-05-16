@@ -31,7 +31,7 @@ end
 % Warpping
 imageCylindrical_v1 = image2cylindrical_v1(image, K, distortions);
 imageCylindrical_v2 = image2cylindrical_v2(image, K, distortions);
-imageCylindrical_ccv = image2cylindricalConcave(image, K, distortions, 1);
+imageCylindrical_ccv = image2cylindricalConcave(image, K, distortions);
 imageSpherical_v1   = image2spherical_v1(image, K, distortions);
 imageSpherical_v2   = image2spherical_v2(image, K, distortions);
 
