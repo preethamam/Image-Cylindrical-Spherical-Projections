@@ -91,7 +91,7 @@ switch interpolate
         % Clip coordinates
         mask = xd > 0 & xd <= xdim & yd > 0 & yd <= ydim;
 
-        ind = sub2ind(size(image), yd(mask), xd(mask)); %, ones(size(xd(mask))));
+        ind = sub2ind(size(image), yd(mask), xd(mask), ones(size(xd(mask))));
         IC1 = zeros(ydim, xdim, 'uint8');
         IC1(mask) = image(ind + 0 * ydim * xdim);
         
